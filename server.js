@@ -45,22 +45,6 @@ mongoose.connect(mongoConnectionString)
 const listingRoutes = require('./routes/listings');
 const userRoutes = require('./routes/users');
 
-// Test routes
-app.get('/', (req, res) => {
-  res.json({ message: 'Pazarlio Backend API', status: 'OK', timestamp: new Date() });
-});
-
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Backend çalışıyor!', timestamp: new Date() });
-});
-
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    database: 'connected',
-    timestamp: new Date() 
-  });
-});
 
 app.use('/api/listings', listingRoutes);
 app.use('/api/users', userRoutes);
