@@ -22,7 +22,22 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB bağlantısı
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/pazarlio')
+// Tanılama logları: ortam değişkenlerini güvenli şekilde yazdır
+const redactedMongoUri = process.env.MONGODB_URI
+  ? process.env.MONGODB_URI.replace(/:\/\/([^:]+):([^@]+)@/, '://<redacted>:<redacted>@')
+  : undefined;
+
+console.log('Ortam kontrolü', {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  HAS_MONGODB_URI: Boolean(process.env.MONGODB_URI),
+  MONGODB_URI: redactedMongoUri,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+});
+
+const mongoConnectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/pazarlio';
+
+mongoose.connect(mongoConnectionString)
   .then(() => console.log('MongoDB bağlantısı başarılı'))
   .catch((err) => console.error('MongoDB bağlantı hatası:', err));
 
