@@ -45,6 +45,11 @@ mongoose.connect(mongoConnectionString)
 const listingRoutes = require('./routes/listings');
 const userRoutes = require('./routes/users');
 
+// Test route
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Backend çalışıyor!', timestamp: new Date() });
+});
+
 app.use('/api/listings', listingRoutes);
 app.use('/api/users', userRoutes);
 
